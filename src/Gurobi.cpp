@@ -297,7 +297,7 @@ bool GurobiDense::solve(const MatrixXd& Q, const VectorXd& C,
 	model_.optimize();
 
 	fail_ = model_.get(GRB_IntAttr_Status);
-	bool success = fail_ == GRB_OPTIMAL;
+	bool success = (fail_ == GRB_OPTIMAL || fail_ == GRB_SUBOPTIMAL);
 	iter_ = model_.get(GRB_IntAttr_BarIterCount);
 	double* result = model_.get(GRB_DoubleAttr_X, vars_, nrvar_);
 	X_ = Map<VectorXd>(result, nrvar_);
